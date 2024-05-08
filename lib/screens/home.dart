@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:vibhu_epics/screens/donation_type.dart';
+import 'package:vibhu_epics/widgets/show_tabs.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,132 +13,113 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 250.0),
-              Text(
-                'Want to share food?',
+              const Text(
+                'Hi Shashwat',
                 style: TextStyle(
-                  color: Color(0xFF2B911B),
+                  color: Colors.black,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20.0),
-              Text(
-                'Become the part in this beautiful\nfood giving process',
-                style: TextStyle(
-                  color: Color(0xFF504E4E),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+              const SizedBox(height: 10.0),
+              const Row(
+                children: [
+                  Text(
+                    'You are a  ',
+                    style: TextStyle(
+                      color: Color(0xFF504E4E),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    'Donor',
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 25.0),
+              const ShowTabs(firstName: 'My Post', secondName: 'My request'),
+              SizedBox(height: 4.h),
+              Container(
+                height: 25.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey),
                 ),
-              ),
-              SizedBox(height: 25.0),
-              Divider(),
-              SizedBox(height: 25.0),
-              Text(
-                'Choose your Role',
-                style: TextStyle(
-                  color: Color(0xFF504E4E),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Center(
+                      child: Text(
+                        'Do you have some food to donate?',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 60.0, bottom: 40.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const DonationType(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 5.h,
+                          width: 65.w,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.green,
+                          ),
+                          child: const Row(
+                            children: [
+                              SizedBox(width: 4),
+                              Center(
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Create Donation Post',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 20.0),
-              RoundedCheckboxContainer(
-                text: 'Donor',
-                subTitle: 'Donate some food to the needful.',
-              ),
-              SizedBox(height: 25.0),
-              RoundedCheckboxContainer(
-                text: 'Reciever',
-                subTitle: 'Pickup and deliver food to the needful.',
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class RoundedCheckboxContainer extends StatefulWidget {
-  final String text;
-  final String subTitle;
-  final ValueChanged<bool>? onChanged;
-  final bool initialValue;
-
-  const RoundedCheckboxContainer({
-    super.key,
-    required this.text,
-    this.onChanged,
-    this.initialValue = false,
-    required this.subTitle,
-  });
-
-  @override
-  _RoundedCheckboxContainerState createState() =>
-      _RoundedCheckboxContainerState();
-}
-
-class _RoundedCheckboxContainerState extends State<RoundedCheckboxContainer> {
-  late bool _isChecked;
-
-  @override
-  void initState() {
-    _isChecked = widget.initialValue;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Checkbox(
-                value: _isChecked,
-                activeColor: Colors.green,
-                onChanged: (value) {
-                  setState(() {
-                    _isChecked = value!;
-                    if (widget.onChanged != null) {
-                      widget.onChanged!(_isChecked);
-                    }
-                  });
-                },
-              ),
-              Text(
-                widget.text,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          Text(
-            widget.subTitle,
-            style: const TextStyle(
-              color: Colors.black45,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
       ),
     );
   }
