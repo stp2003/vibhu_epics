@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
+import 'package:wiredash/wiredash.dart';
 
 import '../services/auth.dart';
 import '../services/shared_pref.dart';
@@ -245,7 +246,9 @@ class _ProfileState extends State<Profile> {
                 ),
                 const SizedBox(height: 30.0),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Wiredash.of(context).show(inheritMaterialTheme: true);
+                  },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Material(
