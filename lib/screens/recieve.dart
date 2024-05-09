@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vibhu_epics/screens/location.dart';
+import 'package:vibhu_epics/widgets/success.dart';
 
 import '../services/database.dart';
 import '../services/shared_pref.dart';
@@ -151,7 +153,25 @@ class _RecieveState extends State<Recieve> {
             const Divider(),
             const SizedBox(height: 20.0),
             GestureDetector(
-              onTap: () async {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const SuccessDialogBox(
+                    content: 'Your order is placed.',
+                  ),
+                );
+                Future.delayed(
+                  const Duration(seconds: 2),
+                  () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const Location(),
+                      ),
+                    );
+                  },
+                );
+              },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 width: MediaQuery.of(context).size.width,

@@ -22,6 +22,8 @@ class _AddFoodState extends State<AddFood> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailController = TextEditingController();
+  TextEditingController sendersAddressController = TextEditingController();
+  TextEditingController recieverAddressController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
   File? selectedImage;
@@ -37,7 +39,9 @@ class _AddFoodState extends State<AddFood> {
     if (selectedImage != null &&
         nameController.text != "" &&
         priceController.text != "" &&
-        detailController.text != "") {
+        detailController.text != "" &&
+        sendersAddressController.text != "" &&
+        recieverAddressController.text != "") {
       String addId = randomAlphaNumeric(10);
 
       Reference firebaseStorageRef =
@@ -51,7 +55,9 @@ class _AddFoodState extends State<AddFood> {
         "Image": downloadUrl,
         "Name": nameController.text,
         "Quantity": priceController.text,
-        "Detail": detailController.text
+        "Detail": detailController.text,
+        "Sender": sendersAddressController.text,
+        "Reciever": recieverAddressController.text,
       };
 
       await DatabaseMethods().addFoodItem(addItem, value!).then(
@@ -209,6 +215,48 @@ class _AddFoodState extends State<AddFood> {
                 child: TextField(
                   maxLines: 6,
                   controller: detailController,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Enter Item Detail",
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              const Text(
+                "Senders Address",
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFececf8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  maxLines: 3,
+                  controller: sendersAddressController,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Enter Senders Address",
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              const Text(
+                "Receivers Address",
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFececf8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  maxLines: 3,
+                  controller: recieverAddressController,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: "Enter Item Detail",

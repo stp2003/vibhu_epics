@@ -131,7 +131,7 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   const Center(
                     child: Text(
-                      'BhoJa',
+                      'BhoJan',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 35.0,

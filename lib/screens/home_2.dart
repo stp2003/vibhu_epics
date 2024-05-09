@@ -49,6 +49,8 @@ class _Home2State extends State<Home2> {
                             name: ds['Name'],
                             detail: ds['Detail'],
                             price: ds['Quantity'],
+                            sender: ds['Sender'],
+                            reciever: ds['Reciever'],
                           ),
                         ),
                       );
@@ -121,6 +123,8 @@ class _Home2State extends State<Home2> {
                             name: ds['Name'],
                             detail: ds['Detail'],
                             price: ds['Quantity'],
+                            sender: ds['Sender'],
+                            reciever: ds['Reciever'],
                           ),
                         ),
                       );
