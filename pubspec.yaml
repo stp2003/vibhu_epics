@@ -44,6 +44,9 @@ dependencies:
   firebase_storage:
   shared_preferences:
   responsive_sizer: ^3.3.0+1
+  dio: ^4.0.0
+  flutter_polyline_points: ^2.0.0
+  google_maps_flutter: ^2.0.2
 
 dev_dependencies:
   flutter_test:

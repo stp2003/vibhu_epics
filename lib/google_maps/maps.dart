@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Location extends StatefulWidget {
-  const Location({super.key});
+class OrderTrackingPage extends StatefulWidget {
+  const OrderTrackingPage({super.key});
 
   @override
-  State<Location> createState() => _LocationState();
+  State<OrderTrackingPage> createState() => _OrderTrackingPageState();
 }
 
-class _LocationState extends State<Location> {
+class _OrderTrackingPageState extends State<OrderTrackingPage> {
   static const LatLng destination = LatLng(23.0709, 76.8317);
   static const LatLng sourceLocation = LatLng(23.0775, 76.8513);
 
