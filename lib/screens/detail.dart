@@ -4,7 +4,7 @@ import '../services/database.dart';
 import '../services/shared_pref.dart';
 
 class Details extends StatefulWidget {
-  final String image, name, detail, price;
+  final String image, name, detail, price, sender, reciever;
 
   const Details({
     super.key,
@@ -12,6 +12,8 @@ class Details extends StatefulWidget {
     required this.image,
     required this.name,
     required this.price,
+    required this.sender,
+    required this.reciever,
   });
 
   @override
@@ -143,6 +145,30 @@ class _DetailsState extends State<Details> {
                 ),
               ],
             ),
+            const SizedBox(height: 25.0),
+            Row(
+              children: [
+                const Text(
+                  "Senders Address: ",
+                ),
+                Text(
+                  widget.sender,
+                ),
+              ],
+            ),
+            const SizedBox(height: 25.0),
+            Row(
+              children: [
+                const Text(
+                  "Reciever Address: ",
+                ),
+                const SizedBox(height: 25.0),
+                Text(
+                  widget.reciever,
+                ),
+              ],
+            ),
+            const SizedBox(width: 25.0),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 40.0),
