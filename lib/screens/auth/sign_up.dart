@@ -1,58 +1,88 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vibhu_epics/screens/auth/sign_up.dart';
+import 'package:random_string/random_string.dart';
 import 'package:vibhu_epics/screens/bottom_nav_bar.dart';
 
-import 'forget_password.dart';
+import '../../services/database.dart';
+import '../../services/shared_pref.dart';
+import 'login_screen.dart';
 
-class LogIn extends StatefulWidget {
-  const LogIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LogIn> createState() => _LogInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LogInState extends State<LogIn> {
-  String email = "", password = "";
+class _SignUpState extends State<SignUp> {
+  String email = "", password = "", name = "";
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController userMailController = TextEditingController();
-  TextEditingController userPasswordController = TextEditingController();
-
-  userLogin() async {
+  registration() async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const BottomNav(),
-          ),
+        ScaffoldMessenger.of(context).showSnackBar(
+          (const SnackBar(
+            backgroundColor: Colors.lightGreen,
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(fontSize: 20.0),
+            ),
+          )),
         );
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      String id = randomAlphaNumeric(10);
+      Map<String, dynamic> addUserInfo = {
+        "Name": nameController.text,
+        "Email": mailController.text,
+        "Wallet": "0",
+        "Id": id,
+      };
+
+      await DatabaseMethods().addUserDetail(addUserInfo, id);
+      await SharedPreferenceHelper().saveUserName(nameController.text);
+      await SharedPreferenceHelper().saveUserEmail(mailController.text);
+      await SharedPreferenceHelper().saveUserWallet('0');
+      await SharedPreferenceHelper().saveUserId(id);
+
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const BottomNav(),
+        ),
+      );
+    } on FirebaseException catch (e) {
+      if (e.code == 'weak-password') {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              backgroundColor: Colors.orangeAccent,
               content: Text(
-                "No User Found for that Email",
-                style: TextStyle(fontSize: 18.0, color: Colors.black),
+                "Password Provided is too Weak",
+                style: TextStyle(fontSize: 18.0),
               ),
             ),
           );
         }
-      } else if (e.code == 'wrong-password') {
+      } else if (e.code == "email-already-in-use") {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              backgroundColor: Colors.orangeAccent,
               content: Text(
-                "Wrong Password Provided by User",
-                style: TextStyle(fontSize: 18.0, color: Colors.black),
+                "Account Already exists",
+                style: TextStyle(fontSize: 18.0),
               ),
             ),
           );
@@ -81,9 +111,8 @@ class _LogInState extends State<LogIn> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height / 3,
-            ),
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
             height: MediaQuery.of(context).size.height / 2,
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
@@ -102,7 +131,7 @@ class _LogInState extends State<LogIn> {
                 children: [
                   const Center(
                     child: Text(
-                      'BhoJan',
+                      'BhoJa',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 35.0,
@@ -118,7 +147,7 @@ class _LogInState extends State<LogIn> {
                     child: Container(
                       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 2,
+                      height: MediaQuery.of(context).size.height / 1.8,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -129,16 +158,28 @@ class _LogInState extends State<LogIn> {
                           children: [
                             const SizedBox(height: 30.0),
                             const Text(
-                              "Login",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
+                              "Sign up",
                             ),
                             const SizedBox(height: 30.0),
                             TextFormField(
-                              controller: userMailController,
+                              controller: nameController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please Enter Email';
+                                  return 'Please Enter Name';
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                hintText: 'Name',
+                                prefixIcon: Icon(Icons.person_outlined),
+                              ),
+                            ),
+                            const SizedBox(height: 30.0),
+                            TextFormField(
+                              controller: mailController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please Enter E-mail';
                                 }
                                 return null;
                               },
@@ -149,7 +190,7 @@ class _LogInState extends State<LogIn> {
                             ),
                             const SizedBox(height: 30.0),
                             TextFormField(
-                              controller: userPasswordController,
+                              controller: passwordController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please Enter Password';
@@ -162,36 +203,19 @@ class _LogInState extends State<LogIn> {
                                 prefixIcon: Icon(Icons.password_outlined),
                               ),
                             ),
-                            const SizedBox(height: 20.0),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPassword(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                alignment: Alignment.topRight,
-                                child: const Text(
-                                  "Forgot Password?",
-                                ),
-                              ),
-                            ),
                             const SizedBox(height: 80.0),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 if (_formKey.currentState!.validate()) {
                                   setState(
                                     () {
-                                      email = userMailController.text;
-                                      password = userPasswordController.text;
+                                      email = mailController.text;
+                                      name = nameController.text;
+                                      password = passwordController.text;
                                     },
                                   );
                                 }
-                                userLogin();
+                                registration();
                               },
                               child: Material(
                                 elevation: 5.0,
@@ -206,7 +230,7 @@ class _LogInState extends State<LogIn> {
                                   ),
                                   child: const Center(
                                     child: Text(
-                                      "LOGIN",
+                                      "SIGN UP",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18.0,
@@ -229,12 +253,12 @@ class _LogInState extends State<LogIn> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SignUp(),
+                          builder: (context) => const LogIn(),
                         ),
                       );
                     },
                     child: const Text(
-                      "Don't have an account? Sign up",
+                      "Already have an account? Login",
                     ),
                   ),
                 ],

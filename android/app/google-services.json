@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "673593200920",
+    "project_id": "vibhuepics",
+    "storage_bucket": "vibhuepics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673593200920:android:203fbe3c40ccb1a9914e6d",
+        "android_client_info": {
+          "package_name": "com.example.vibhu_epics"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2uqEio4ZoqLmAAm5m8aLAhs0gIj5c9qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

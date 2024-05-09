@@ -2,9 +2,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:vibhu_epics/screens/location.dart';
 import 'package:vibhu_epics/screens/profile.dart';
-import 'package:vibhu_epics/screens/recieve.dart';
+import 'package:vibhu_epics/screens/select_profile.dart';
 
-import 'home.dart';
+import 'home_2.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -18,15 +18,15 @@ class _BottomNavState extends State<BottomNav> {
 
   late List<Widget> pages;
   late Widget currentPage;
-  late Home homepage;
+  late Home2 homepage;
   late Profile profile;
-  late Recieve receive;
+  late SelectProfile receive;
   late Location location;
 
   @override
   void initState() {
-    homepage = const Home();
-    receive = const Recieve();
+    homepage = const Home2();
+    receive = const SelectProfile();
     location = const Location();
     profile = const Profile();
     pages = [homepage, receive, location, profile];

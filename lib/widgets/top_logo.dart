@@ -19,8 +19,9 @@ class TopLogo extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: Image.asset(
-            'assets/images/plant_care.jpg',
-            fit: BoxFit.cover,
+            'assets/img.png',
+            width: 250.0,
+            height: 250.0,
           ),
         ),
       ),
