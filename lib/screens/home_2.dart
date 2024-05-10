@@ -86,7 +86,7 @@ class _Home2State extends State<Home2> {
                               ),
                               const SizedBox(height: 5.0),
                               Text(
-                                'Quantity: ' + ds['Quantity'],
+                                '${'Quantity: ' + ds['Quantity']} Kg',
                               ),
                             ],
                           ),
@@ -172,7 +172,7 @@ class _Home2State extends State<Home2> {
                                     width:
                                         MediaQuery.of(context).size.width / 2,
                                     child: Text(
-                                      "Quantity: " + ds['Quantity'],
+                                      '${'Quantity: ' + ds['Quantity']} Kg',
                                     ),
                                   ),
                                 ],
